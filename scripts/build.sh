@@ -93,14 +93,14 @@ _setup(){
 
 	chroot chroot apt-get update
 	chroot chroot apt-get upgrade -y
-	chroot chroot apt-get install -y $(cat packages.amd64 | sed /^#/d)
+	chroot chroot apt-get install -y $(cat packages.amd64 | sed /^\#/d)
 
 	if [ -f chroot/root/customise_dirootfs.d/postinstall.sh ]; then
 		chroot chroot /root/customise_dirootfs.d/postinstall.sh
 	fi
 
 	if [ -f purge_packages.amd64 ]; then
-		chroot chroot apt-get purge -y --autoremove $(cat purge_packages.amd64 | sed /^#/d)
+		chroot chroot apt-get purge -y --autoremove $(cat purge_packages.amd64 | sed /^\#/d)
 	fi
 
 	# flatpak's pkgs
@@ -108,7 +108,7 @@ _setup(){
 	#	chroot chroot apt install flatpak
 	#	chroot chroot flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 	#	chroot chroot flatpak update
-	#	chroot chroot flatpak install flathub $(cat flatpak_packages.amd64 | sed /^#/d)
+	#	chroot chroot flatpak install flathub $(cat flatpak_packages.amd64 | sed /^\#/d)
 	#fi
 
 	chroot chroot dpkg-reconfigure locales
