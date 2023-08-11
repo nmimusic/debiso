@@ -109,3 +109,7 @@ grub-efi-amd64-bin
 grub-efi-amd64-signed
 libefiboot1
 libefivar1
+
+# Installer
+calamares
+calamares-settings-debian
