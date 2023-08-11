@@ -151,7 +151,7 @@ _build_iso(){
 	cp chroot/boot/initrd.img-**-**-amd64 iso/live/initrd
 
 	# grub
-	touch iso/${DISTRO_NAME}
+	touch iso/rootdir
 	cp grub/grub.cfg iso/isolinux/grub.cfg
 
 	# package list
