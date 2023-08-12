@@ -29,12 +29,14 @@ set -u
 
 export LC_ALL=C
 
+SCRDIR=$(pwd)
+
 DISTRO_NAME=""
 DISTRO_VERSION=""
 DEBIAN_VERSION=""
 ARCH=""
 
-source profiledef.sh
+source "${SCRDIR}/profiledef.sh"
 
 _user_distinction(){
 	if [[ $(whoami) != "root" ]]; then
@@ -64,15 +66,21 @@ _prepare(){
 
 	cp -pr dirootfs/* work/chroot/
 	cp -p packages.amd64 work/
-	cp -pr grub work
+	sed /^\#/d -i work/packages.amd64
+	cp -pr grub work/
 	cp -pr sources.list work/chroot/etc/apt/
 	cp -pr trusted.gpg.d/* work/chroot/etc/apt/trusted.gpg.d/
 	if [ -f purge_packages.amd64 ]; then
 		cp -p purge_packages.amd64 work/
+		sed /^\#/d -i work/purge_packages.amd64
 	fi
-	#if [ -f flatpak_packages.amd64 ]; then
-	#	cp -p flatpak_packages.amd64 work/
-	#fi
+	if [ -f flatpak_packages.amd64 ]; then
+		cp -p flatpak_packages.amd64 work/
+	 sed /^\#/d -i work/flatpak_packages.amd64
+	fi
+	chmod 755 work/chroot/root/customise_dirootfs.d/*.sh
+	sed "s/distro_name/${DISTRO_NAME}/g" -i work/grub/grub.cfg
+	sed "s/distro_unix_name/${DISTRO_UNIX_NAME}/g" -i work/grub/grub.cfg
 
 	# chroot
 	cd work
@@ -93,23 +101,23 @@ _setup(){
 
 	chroot chroot apt-get update
 	chroot chroot apt-get upgrade -y
-	chroot chroot apt-get install -y $(cat packages.amd64 | sed /^\#/d)
+	chroot chroot apt-get install -y $(cat packages.amd64)
 
 	if [ -f chroot/root/customise_dirootfs.d/postinstall.sh ]; then
 		chroot chroot /root/customise_dirootfs.d/postinstall.sh
 	fi
 
 	if [ -f purge_packages.amd64 ]; then
-		chroot chroot apt-get purge -y --autoremove $(cat purge_packages.amd64 | sed /^\#/d)
+		chroot chroot apt-get purge -y --autoremove $(cat purge_packages.amd64)
 	fi
 
 	# flatpak's pkgs
-	#if [ -f flatpak_packages.amd64 ]; then
-	#	chroot chroot apt install flatpak
-	#	chroot chroot flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-	#	chroot chroot flatpak update
-	#	chroot chroot flatpak install flathub $(cat flatpak_packages.amd64 | sed /^\#/d)
-	#fi
+	if [ -f flatpak_packages.amd64 ]; then
+		chroot chroot apt install flatpak
+		chroot chroot flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+		chroot chroot flatpak update
+		chroot chroot flatpak install flathub $(cat flatpak_packages.amd64)
+	fi
 
 	chroot chroot dpkg-reconfigure locales
 	chroot chroot dpkg-reconfigure resolvconf
@@ -151,7 +159,7 @@ _build_iso(){
 	cp chroot/boot/initrd.img-**-**-amd64 iso/live/initrd
 
 	# grub
-	touch iso/rootdir
+	touch iso/${DISTRO_UNIX_NAME}
 	cp grub/grub.cfg iso/isolinux/grub.cfg
 
 	# package list
@@ -205,7 +213,7 @@ _build_iso(){
 	    -as mkisofs \
 	    -iso-level 3 \
 	    -full-iso9660-filenames \
-	    -volid "${DISTRO_NAME}" \
+	    -volid "${DISTRO_UNIX_NAME}" \
 	    -eltorito-boot boot/grub/bios.img \
 	    -no-emul-boot \
 	    -boot-load-size 4 \
@@ -217,7 +225,7 @@ _build_iso(){
 	    -e EFI/efiboot.img \
 	    -no-emul-boot \
 	    -append_partition 2 0xef isolinux/efiboot.img \
-	    -output "../../out/${DISTRO_NAME}-${DISTRO_VERSION}-amd64.iso" \
+	    -output "../../out/${DISTRO_UNIX_NAME}-${DISTRO_VERSION}-amd64.iso" \
 	    -m "isolinux/efiboot.img" \
 	    -m "isolinux/bios.img" \
 	    -graft-points \

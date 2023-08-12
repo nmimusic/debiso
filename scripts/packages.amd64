@@ -64,42 +64,44 @@ locales
 
 # GNOME Desktop
 task-desktop
-gnome-core
 tasksel
+xorg
 gnome-bluetooth
+gnome-calendar
+gnome-clocks
 gnome-control-center
 gnome-disk-utility
 gnome-keyring
 gnome-logs
 gnome-menus
 gnome-online-accounts
-gnome-online-miners
 gnome-session
 gnome-settings-daemon
 gnome-shell
 gnome-terminal
 gnome-sushi
 gnome-software
+gnome-software-plugin-flatpak
 gnome-user-docs
 gnome-user-share
 gdm3
 
 # Softwares
-firefox-esr
-libreoffice
-libreoffice-l10n-ja
 gparted
 nautilus
+totem
+eog
+gedit
+rhythmbox
+evince
+galculator
 
 # Boot Splash
 plymouth
 plymouth-themes
 
 # Audio
-pipewire
-pipewire-alsa
-pipewire-pulse
-gstreamer1.0-pipewire
+pulseaudio
 pavucontrol
 alsa-utils
 
