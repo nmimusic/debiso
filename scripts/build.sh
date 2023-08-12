@@ -80,7 +80,7 @@ _prepare(){
 	fi
 	chmod 755 work/chroot/root/customise_dirootfs.d/*.sh
 	sed "s/distro_name/${DISTRO_NAME}/g" -i work/grub/grub.cfg
-	sed "s/distro_unix_name/${DISTRO_UNIX_NAME}/g" -i work/grub/grub.cfg
+	sed "s/distro_uname/${DISTRO_UNAME}/g" -i work/grub/grub.cfg
 
 	# chroot
 	cd work
@@ -159,7 +159,7 @@ _build_iso(){
 	cp chroot/boot/initrd.img-**-**-amd64 iso/live/initrd
 
 	# grub
-	touch iso/${DISTRO_UNIX_NAME}
+	touch iso/${DISTRO_UNAME}
 	cp grub/grub.cfg iso/isolinux/grub.cfg
 
 	# package list
@@ -213,7 +213,7 @@ _build_iso(){
 	    -as mkisofs \
 	    -iso-level 3 \
 	    -full-iso9660-filenames \
-	    -volid "${DISTRO_UNIX_NAME}" \
+	    -volid "${DISTRO_UNAME}" \
 	    -eltorito-boot boot/grub/bios.img \
 	    -no-emul-boot \
 	    -boot-load-size 4 \
@@ -225,7 +225,7 @@ _build_iso(){
 	    -e EFI/efiboot.img \
 	    -no-emul-boot \
 	    -append_partition 2 0xef isolinux/efiboot.img \
-	    -output "../../out/${DISTRO_UNIX_NAME}-${DISTRO_VERSION}-amd64.iso" \
+	    -output "../../out/${DISTRO_UNAME}-${DISTRO_VERSION}-amd64.iso" \
 	    -m "isolinux/efiboot.img" \
 	    -m "isolinux/bios.img" \
 	    -graft-points \
