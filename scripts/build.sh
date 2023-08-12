@@ -69,7 +69,12 @@ _prepare(){
 	sed /^\#/d -i work/packages.amd64
 	cp -pr grub work/
 	cp -pr sources.list work/chroot/etc/apt/
-	cp -pr trusted.gpg.d/* work/chroot/etc/apt/trusted.gpg.d/
+	if [ -d sources.list.d ]; then
+		cp -pr sources.list.d/* work/chroot/etc/apt/sources.list.d/
+	fi
+	if [ -d trusted.gpg.d ]; then
+		cp -pr trusted.gpg.d/* work/chroot/etc/apt/trusted.gpg.d/
+	fi
 	if [ -f purge_packages.amd64 ]; then
 		cp -p purge_packages.amd64 work/
 		sed /^\#/d -i work/purge_packages.amd64
