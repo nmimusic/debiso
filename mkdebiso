@@ -37,6 +37,7 @@ if [ ! -f ${PROFILE_DIR}/profiledef.sh ]; then
 fi
 
 DISTRO_NAME=""
+DISTRO_UNAME=""
 DISTRO_VERSION=""
 DEBIAN_VERSION=""
 ARCH=""
@@ -148,11 +149,11 @@ EOF
 }
 
 _build_iso(){
-	umount chroot/proc
-	umount chroot/sys
-	umount chroot/dev/pts
-	umount chroot/dev
-	umount chroot/run
+	umount -l chroot/proc
+	umount -l chroot/sys
+	umount -l chroot/dev/pts
+	umount -l chroot/dev
+	umount -l chroot/run
 
 	mkdir iso
 	mkdir -p iso/{live,isolinux,install}
