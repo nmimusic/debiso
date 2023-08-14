@@ -32,7 +32,7 @@ export LC_ALL=C
 PROFILE_DIR=$1
 if [ ! -f ${PROFILE_DIR}/profiledef.sh ]; then
 	echo "ERROR: No profile specified!"
-	echo "usage: sudo ./build.sh <profile directory>"
+	echo "usage: sudo ./mkdebiso <profile directory>"
 	exit 1
 fi
 
