@@ -29,21 +29,26 @@ set -u
 
 export LC_ALL=C
 
-SCRDIR=$(pwd)
+PROFILE_DIR=$1
+if [ ! -f ${PROFILE_DIR}/profiledef.sh ]; then
+	echo "ERROR: No profile specified!"
+	echo "usage: sudo ./build.sh <profile directory>"
+	exit 1
+fi
 
 DISTRO_NAME=""
 DISTRO_VERSION=""
 DEBIAN_VERSION=""
 ARCH=""
 
-source "${SCRDIR}/profiledef.sh"
+source "${PROFILE_DIR}/profiledef.sh"
 
 _user_distinction(){
 	if [[ $(whoami) != "root" ]]; then
 		echo "Need to run as root!"
 		exit 1
 	elif [ ! -f /etc/debian_version ]; then
-		echo "The operation on the distros other than Debian/Ubuntu-based is not confirmed."
+		echo "The operation on the distros other than Debian/Ubuntu-based is not tested."
 		exit 1
 	fi
 }
@@ -64,23 +69,23 @@ _prepare(){
 
 	debootstrap --arch=amd64 --variant=minbase ${DEBIAN_VERSION} work/chroot ${MIRROR_URL}
 
-	cp -pr dirootfs/* work/chroot/
-	cp -p packages.amd64 work/
+	cp -pr 	${PROFILE_DIR}/dirootfs/* work/chroot/
+	cp -p ${PROFILE_DIR}/packages.amd64 work/
 	sed /^\#/d -i work/packages.amd64
-	cp -pr grub work/
-	cp -pr sources.list work/chroot/etc/apt/
-	if [ -d sources.list.d ]; then
-		cp -pr sources.list.d/* work/chroot/etc/apt/sources.list.d/
+	cp -pr ${PROFILE_DIR}/grub work/
+	cp -pr ${PROFILE_DIR}/sources.list work/chroot/etc/apt/
+	if [ -d ${PROFILE_DIR}/sources.list.d ]; then
+		cp -pr ${PROFILE_DIR}/sources.list.d/* work/chroot/etc/apt/sources.list.d/
 	fi
-	if [ -d trusted.gpg.d ]; then
-		cp -pr trusted.gpg.d/* work/chroot/etc/apt/trusted.gpg.d/
+	if [ -d ${PROFILE_DIR}/trusted.gpg.d ]; then
+		cp -pr ${PROFILE_DIR}/trusted.gpg.d/* work/chroot/etc/apt/trusted.gpg.d/
 	fi
-	if [ -f purge_packages.amd64 ]; then
-		cp -p purge_packages.amd64 work/
+	if [ -f ${PROFILE_DIR}/purge_packages.amd64 ]; then
+		cp -p ${PROFILE_DIR}/purge_packages.amd64 work/
 		sed /^\#/d -i work/purge_packages.amd64
 	fi
-	if [ -f flatpak_packages.amd64 ]; then
-		cp -p flatpak_packages.amd64 work/
+	if [ -f ${PROFILE_DIR}/flatpak_packages.amd64 ]; then
+		cp -p ${PROFILE_DIR}/flatpak_packages.amd64 work/
 	 sed /^\#/d -i work/flatpak_packages.amd64
 	fi
 	chmod 755 work/chroot/root/customise_dirootfs.d/*.sh
@@ -118,10 +123,10 @@ _setup(){
 
 	# flatpak's pkgs
 	if [ -f flatpak_packages.amd64 ]; then
-		chroot chroot apt install flatpak
+		chroot chroot apt install -y flatpak
 		chroot chroot flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 		chroot chroot flatpak update
-		chroot chroot flatpak install flathub $(cat flatpak_packages.amd64)
+		chroot chroot flatpak install -y flathub $(cat flatpak_packages.amd64)
 	fi
 
 	chroot chroot dpkg-reconfigure locales
