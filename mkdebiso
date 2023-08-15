@@ -40,6 +40,7 @@ DISTRO_NAME=""
 DISTRO_UNAME=""
 DISTRO_VERSION=""
 DEBIAN_VERSION=""
+MIRROR_URL=""
 ARCH=""
 
 source "${PROFILE_DIR}/profiledef.sh"
@@ -68,11 +69,11 @@ _prepare(){
 	                   unzip
 	mkdir -p work/chroot
 
-	debootstrap --arch=amd64 --variant=minbase ${DEBIAN_VERSION} work/chroot ${MIRROR_URL}
+	debootstrap --arch=${ARCH} --variant=minbase ${DEBIAN_VERSION} work/chroot ${MIRROR_URL}
 
 	cp -pr 	${PROFILE_DIR}/dirootfs/* work/chroot/
-	cp -p ${PROFILE_DIR}/packages.amd64 work/
-	sed /^\#/d -i work/packages.amd64
+	cp -p ${PROFILE_DIR}/packages.${ARCH} work/
+	sed /^\#/d -i work/packages.${ARCH}
 	cp -pr ${PROFILE_DIR}/grub work/
 	cp -pr ${PROFILE_DIR}/sources.list work/chroot/etc/apt/
 	if [ -d ${PROFILE_DIR}/sources.list.d ]; then
@@ -81,13 +82,13 @@ _prepare(){
 	if [ -d ${PROFILE_DIR}/trusted.gpg.d ]; then
 		cp -pr ${PROFILE_DIR}/trusted.gpg.d/* work/chroot/etc/apt/trusted.gpg.d/
 	fi
-	if [ -f ${PROFILE_DIR}/purge_packages.amd64 ]; then
-		cp -p ${PROFILE_DIR}/purge_packages.amd64 work/
-		sed /^\#/d -i work/purge_packages.amd64
+	if [ -f ${PROFILE_DIR}/purge_packages.${ARCH} ]; then
+		cp -p ${PROFILE_DIR}/purge_packages.${ARCH} work/
+		sed /^\#/d -i work/purge_packages.${ARCH}
 	fi
-	if [ -f ${PROFILE_DIR}/flatpak_packages.amd64 ]; then
-		cp -p ${PROFILE_DIR}/flatpak_packages.amd64 work/
-	 sed /^\#/d -i work/flatpak_packages.amd64
+	if [ -f ${PROFILE_DIR}/flatpak_packages.${ARCH} ]; then
+		cp -p ${PROFILE_DIR}/flatpak_packages.${ARCH} work/
+	 sed /^\#/d -i work/flatpak_packages.${ARCH}
 	fi
 	chmod 755 work/chroot/root/customise_dirootfs.d/*.sh
 	sed "s/distro_name/${DISTRO_NAME}/g" -i work/grub/grub.cfg
@@ -112,22 +113,22 @@ _setup(){
 
 	chroot chroot apt-get update
 	chroot chroot apt-get upgrade -y
-	chroot chroot apt-get install -y $(cat packages.amd64)
+	chroot chroot apt-get install -y $(cat packages.${ARCH})
 
 	if [ -f chroot/root/customise_dirootfs.d/postinstall.sh ]; then
 		chroot chroot /root/customise_dirootfs.d/postinstall.sh
 	fi
 
-	if [ -f purge_packages.amd64 ]; then
-		chroot chroot apt-get purge -y --autoremove $(cat purge_packages.amd64)
+	if [ -f purge_packages.${ARCH} ]; then
+		chroot chroot apt-get purge -y --autoremove $(cat purge_packages.${ARCH})
 	fi
 
 	# flatpak's pkgs
-	if [ -f flatpak_packages.amd64 ]; then
+	if [ -f flatpak_packages.${ARCH} ]; then
 		chroot chroot apt install -y flatpak
 		chroot chroot flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 		chroot chroot flatpak update
-		chroot chroot flatpak install -y flathub $(cat flatpak_packages.amd64)
+		chroot chroot flatpak install -y flathub $(cat flatpak_packages.${ARCH})
 	fi
 
 	chroot chroot dpkg-reconfigure locales
@@ -166,8 +167,8 @@ _build_iso(){
 	rm -f iso/install/memtest86-usb.zip
 
 	# copy kernel
-	cp chroot/boot/vmlinuz-**-**-amd64 iso/live/vmlinuz
-	cp chroot/boot/initrd.img-**-**-amd64 iso/live/initrd
+	cp chroot/boot/vmlinuz-**-**-${ARCH} iso/live/vmlinuz
+	cp chroot/boot/initrd.img-**-**-${ARCH} iso/live/initrd
 
 	# grub
 	touch iso/${DISTRO_UNAME}
@@ -236,7 +237,7 @@ _build_iso(){
 	    -e EFI/efiboot.img \
 	    -no-emul-boot \
 	    -append_partition 2 0xef isolinux/efiboot.img \
-	    -output "../../out/${DISTRO_UNAME}-${DISTRO_VERSION}-amd64.iso" \
+	    -output "../../out/${DISTRO_UNAME}-${DISTRO_VERSION}-${ARCH}.iso" \
 	    -m "isolinux/efiboot.img" \
 	    -m "isolinux/bios.img" \
 	    -graft-points \
