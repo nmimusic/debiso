@@ -130,7 +130,7 @@ _setup(){
 
 	# flatpak's pkgs
 	if [ -f flatpak_packages.${ARCH} ]; then
-		chroot chroot apt install -y flatpak
+		chroot chroot apt-get install -y flatpak
 		chroot chroot flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 		chroot chroot flatpak update
 		chroot chroot flatpak install -y flathub $(cat flatpak_packages.${ARCH})
@@ -150,8 +150,7 @@ managed=false
 EOF
 	chroot chroot dpkg-reconfigure network-manager
 
-	chroot chroot apt clean -y
-
+	chroot chroot apt-get clean -y
 }
 
 _build_iso(){
