@@ -63,10 +63,15 @@ _prepare(){
 	                   squashfs-tools \
 	                   xorriso \
 	                   grub-pc-bin \
-	                   grub-efi-amd64-bin \
 	                   mtools \
 	                   dosfstools \
 	                   unzip
+	if [[ ${ARCH} == "amd64" ]]; then
+	 apt-get install -y grub-efi-amd64-bin \
+	                     grub-efi-ia32-bin
+	elif [[ ${ARCH} == "i386" ]]; then
+		apt-get install -y grub-efi-ia32-bin
+	fi
 	mkdir -p work/chroot
 
 	debootstrap --arch=${ARCH} --variant=minbase ${DEBIAN_VERSION} work/chroot ${MIRROR_URL}
@@ -197,13 +202,22 @@ _build_iso(){
 	    --fonts="" \
 	    "boot/grub/grub.cfg=isolinux/grub.cfg"
 
+	grub-mkstandalone \
+	    --format=i386-efi \
+	    --output=isolinux/bootia32.efi \
+	    --locales="" \
+	    --fonts="" \
+	    "boot/grub/grub.cfg=isolinux/grub.cfg"
+
 	(
         cd isolinux && \
         dd if=/dev/zero of=efiboot.img bs=1M count=10 && \
         mkfs.vfat efiboot.img && \
         LC_CTYPE=C mmd -i efiboot.img efi efi/boot && \
+        LC_CTYPE=C mcopy -i efiboot.img ./bootia32.efi ::efi/boot/ && \
         LC_CTYPE=C mcopy -i efiboot.img ./bootx64.efi ::efi/boot/
 	)
+
 
 	grub-mkstandalone \
         --format=i386-pc \
