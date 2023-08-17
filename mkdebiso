@@ -47,10 +47,13 @@ source "${PROFILE_DIR}/profiledef.sh"
 
 _user_distinction(){
 	if [[ $(whoami) != "root" ]]; then
-		echo "Need to run as root!"
+		echo "ERROR: Need to run as root!"
 		exit 1
 	elif [ ! -f /etc/debian_version ]; then
-		echo "The operation on the distros other than Debian/Ubuntu-based is not tested."
+		echo "ERROR: The operation on the distros other than Debian/Ubuntu-based is not tested!"
+		exit 1
+	elif [[ ${ARCH} != "amd64" ]]; then
+		echo "ERROR: Selected architecture not supported!"
 		exit 1
 	fi
 }
@@ -68,9 +71,7 @@ _prepare(){
 	                   unzip
 	if [[ ${ARCH} == "amd64" ]]; then
 	 apt-get install -y grub-efi-amd64-bin \
-	                     grub-efi-ia32-bin
-	elif [[ ${ARCH} == "i386" ]]; then
-		apt-get install -y grub-efi-ia32-bin
+	                    grub-efi-ia32-bin
 	fi
 	mkdir -p work/chroot
 
@@ -216,7 +217,6 @@ _build_iso(){
         LC_CTYPE=C mcopy -i efiboot.img ./bootia32.efi ::efi/boot/ && \
         LC_CTYPE=C mcopy -i efiboot.img ./bootx64.efi ::efi/boot/
 	)
-
 
 	grub-mkstandalone \
         --format=i386-pc \
