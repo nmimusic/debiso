@@ -87,9 +87,9 @@ _prepare(){
 	if [ -d ${PROFILE_DIR}/trusted.gpg.d ]; then
 		cp -pr ${PROFILE_DIR}/trusted.gpg.d/* work/chroot/etc/apt/trusted.gpg.d/
 	fi
-	if [ -f ${PROFILE_DIR}/purge_packages.${ARCH} ]; then
-		cp -p ${PROFILE_DIR}/purge_packages.${ARCH} work/
-		sed /^\#/d -i work/purge_packages.${ARCH}
+	if [ -f ${PROFILE_DIR}/exclude_packages.${ARCH} ]; then
+		cp -p ${PROFILE_DIR}/exclude_packages.${ARCH} work/
+		sed /^\#/d -i work/exclude_packages.${ARCH}
 	fi
 	if [ -f ${PROFILE_DIR}/flatpak_packages.${ARCH} ]; then
 		cp -p ${PROFILE_DIR}/flatpak_packages.${ARCH} work/
@@ -124,8 +124,8 @@ _setup(){
 		chroot chroot /root/customise_dirootfs.d/postinstall.sh
 	fi
 
-	if [ -f purge_packages.${ARCH} ]; then
-		chroot chroot apt-get purge -y --autoremove $(cat purge_packages.${ARCH})
+	if [ -f exclude_packages.${ARCH} ]; then
+		chroot chroot apt-get purge -y --autoremove $(cat exclude_packages.${ARCH})
 	fi
 
 	# flatpak's pkgs
