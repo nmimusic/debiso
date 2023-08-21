@@ -96,7 +96,9 @@ _prepare(){
 		cp -p ${PROFILE_DIR}/flatpak_packages.${ARCH} work/
 	 sed /^\#/d -i work/flatpak_packages.${ARCH}
 	fi
-	chmod 755 work/chroot/root/customise_dirootfs.d/*.sh
+	if [ -d work/chroot/root/customise_dirootfs.d/ ]; then
+		chmod 755 work/chroot/root/customise_dirootfs.d/*.sh
+	fi
 	sed "s/distro_name/${DISTRO_NAME}/g" -i work/grub/grub.cfg
 	sed "s/distro_uname/${DISTRO_UNAME}/g" -i work/grub/grub.cfg
 
