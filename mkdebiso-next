@@ -97,6 +97,9 @@ _prepare(){
 		cp -p ${PROFILE_DIR}/flatpak_packages.${ARCH} work/
 	 sed /^\#/d -i work/flatpak_packages.${ARCH}
 	fi
+	if [ -f ${PROFILE_DIR}/ppa.${ARCH} ]; then
+		cp -p ${PROFILE_DIR}/ppa.${ARCH} work/
+	 sed /^\#/d -i work/ppa.${ARCH}
 	if [ -d work/chroot/root/customise_dirootfs.d/ ]; then
 		chmod 755 work/chroot/root/customise_dirootfs.d/*.sh
 	fi
@@ -115,6 +118,14 @@ _prepare(){
 _setup(){
 	chmod 700 chroot/root
 	chown root:root chroot/root
+
+	if [ -f ppa.${ARCH} ]; then
+		chroot chroot apt-get install -y software-properties-common
+		PPALIST=($(cat ppa.${ARCH}))
+		for ((i=0; i < ${#PPALIST[*]}; i++)); do
+			chroot chroot add-apt-repository -y ppa:${PPALIST[i]}
+		done
+	fi
 
 	if [ -f chroot/root/customise_dirootfs.d/preinstall.sh ]; then
 		chroot chroot /root/customise_dirootfs.d/preinstall.sh
