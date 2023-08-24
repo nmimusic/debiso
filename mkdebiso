@@ -99,8 +99,8 @@ _prepare(){
 	if [ -d work/chroot/root/customise_dirootfs.d/ ]; then
 		chmod 755 work/chroot/root/customise_dirootfs.d/*.sh
 	fi
-	sed "s/distro_name/${DISTRO_NAME}/g" -i work/grub/grub.cfg
-	sed "s/distro_uname/${DISTRO_UNAME}/g" -i work/grub/grub.cfg
+	sed "s/%DISTRO_UNAME%/${DISTRO_NAME}/g" -i work/grub/grub.cfg
+	sed "s/%DISTRO_UNAME%/${DISTRO_UNAME}/g" -i work/grub/grub.cfg
 
 	# chroot
 	cd work
