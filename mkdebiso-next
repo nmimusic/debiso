@@ -50,9 +50,9 @@ _user_distinction(){
 	if [[ $(whoami) != "root" ]]; then
 		echo "ERROR: Need to run as root!"
 		exit 1
-	elif [ ! -f /etc/debian_version ]; then
-		echo "ERROR: The operation on the distros other than Debian/Ubuntu-based is not tested!"
-		exit 1
+#	elif [ ! -f /etc/debian_version ]; then
+#		echo "ERROR: The operation on the distros other than Debian/Ubuntu-based is not tested!"
+#		exit 1
 	elif [[ ${ARCH} != "amd64" ]]; then
 		echo "ERROR: Selected architecture not supported!"
 		exit 1
@@ -60,27 +60,13 @@ _user_distinction(){
 }
 
 _prepare(){
-	# Configure the environment
-	apt-get update
-	apt-get install -y binutils \
-	                   debootstrap \
-	                   squashfs-tools \
-	                   xorriso \
-	                   grub-pc-bin \
-	                   mtools \
-	                   dosfstools \
-	                   unzip
-	if [[ ${ARCH} == "amd64" ]]; then
-	 apt-get install -y grub-efi-amd64-bin \
-	                    grub-efi-ia32-bin
-	fi
 	mkdir -p work/chroot
 
 	debootstrap --arch=${ARCH} --variant=minbase ${UPSTREAM_VERSION} work/chroot ${MIRROR_URL}
 
 	cp -pr 	${PROFILE_DIR}/dirootfs/* work/chroot/
 	cp -p ${PROFILE_DIR}/packages.${ARCH} work/
-	sed /^\#/d -i work/packages.${ARCH}
+	sed "/^\#/d" -i work/packages.${ARCH}
 	cp -pr ${PROFILE_DIR}/grub work/
 	cp -pr ${PROFILE_DIR}/sources.list work/chroot/etc/apt/
 	if [ -d ${PROFILE_DIR}/sources.list.d ]; then
@@ -99,10 +85,12 @@ _prepare(){
 	fi
 	if [ -f ${PROFILE_DIR}/ppa.${ARCH} ]; then
 		cp -p ${PROFILE_DIR}/ppa.${ARCH} work/
-	 sed /^\#/d -i work/ppa.${ARCH}
+		sed "/^\#/d" -i work/ppa.${ARCH}
+	fi
 	if [ -d work/chroot/root/customise_dirootfs.d/ ]; then
 		chmod 755 work/chroot/root/customise_dirootfs.d/*.sh
 	fi
+
 	sed "s/%DISTRO_UNAME%/${DISTRO_NAME}/g" -i work/grub/grub.cfg
 	sed "s/%DISTRO_UNAME%/${DISTRO_UNAME}/g" -i work/grub/grub.cfg
 
