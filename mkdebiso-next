@@ -69,6 +69,9 @@ _prepare(){
 	sed "/^\#/d" -i work/packages.${ARCH}
 	cp -pr ${PROFILE_DIR}/grub work/
 	cp -pr ${PROFILE_DIR}/sources.list work/chroot/etc/apt/
+	if [ -d ${PROFILE_DIR}/calamares-config.d ]; then
+		cp -pr ${PROFILE_DIR}/calamares-config.d/* work/chroot/
+	fi
 	if [ -d ${PROFILE_DIR}/sources.list.d ]; then
 		cp -pr ${PROFILE_DIR}/sources.list.d/* work/chroot/etc/apt/sources.list.d/
 	fi
@@ -139,8 +142,10 @@ _setup(){
 		chroot chroot flatpak install -y flathub $(cat flatpak_packages.${ARCH})
 	fi
 
-	chroot chroot dpkg-reconfigure locales
-	chroot chroot dpkg-reconfigure resolvconf
+	_PATH="$(chroot /var/lib/machines/debian printenv PATH):/usr/sbin"
+
+	PATH=${_PATH} chroot chroot /usr/sbin/dpkg-reconfigure locales
+	PATH=${_PATH}	chroot chroot /usr/sbin/dpkg-reconfigure resolvconf
 
 	cat <<EOF > chroot/etc/NetworkManager/NetworkManager.conf
 [main]
@@ -151,7 +156,7 @@ dns=dnsmasq
 [ifupdown]
 managed=false
 EOF
-	chroot chroot dpkg-reconfigure network-manager
+	PATH=${_PATH} chroot chroot /usr/sbin/dpkg-reconfigure network-manager
 
 	chroot chroot apt-get clean -y
 }
