@@ -7,7 +7,6 @@ ubuntu-standard
 
 # Extra Packages
 sudo
-ubuntu-standard
 casper
 discover
 laptop-detect

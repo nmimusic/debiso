@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # License: 3-clause BSD
 DISTRO_NAME="Ubuntu H.A.Y. Remix"
 DISTRO_UNAME="ubuntu-hay-remix"

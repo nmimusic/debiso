@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # License: 3-clause BSD
 DISTRO_NAME="Debian H.A.Y. Remix"
 DISTRO_UNAME="debian-hay-remix"

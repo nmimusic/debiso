@@ -1,0 +1,33 @@
+---
+componentName:  univalent
+
+windowExpanding:    fullscreen
+
+
+strings:
+    productName:         "Univalent Versatile Enviroment"
+    shortProductName:    Univalent
+    version:             23.09
+    #shortVersion:
+    versionedName:       Univalent Versatile Environment 23.09
+    shortVersionedName:  Univalent 23.09
+    bootloaderEntryName: UVE
+    productUrl:          https://sourceforge.net/projects/univalentgnulinux
+    supportUrl:          https://sourceforge.net/projects/univalentgnulinux/forum
+
+images:
+    productLogo:         "logo.png"
+    productIcon:         "icon.png"
+    productWelcome:      "welcome.png"
+
+style:
+   sidebarBackground:    "#292F34"
+   sidebarText:          "#FFFFFF"
+   sidebarTextSelect:    "#292F34"
+   sidebarTextHighlight: "#00CED1"
+
+slideshow:               "show.qml"
+
+slideshowAPI: 1
+
+
