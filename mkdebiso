@@ -284,12 +284,12 @@ _main(){
 	if [ ! -f ${PROFDIR}/profiledef.sh ]; then
 		echo "ERROR: No profile specified!"
 		_usage
-		false
+		exit 1
 	fi
 
 	if [[ $(whoami) != "root" ]]; then
 		echo "ERROR: Need to run as root!"
-		false
+		exit 1
 	fi
 
 	source "${PROFDIR}/profiledef.sh"
@@ -338,7 +338,7 @@ while getopts 'w:o:p:hv' arg; do
 		*)
 			echo "ERROR: Invalid argument '${1}'!"
 			_usage
-			false
+			exit 1
 			;;
 	esac
 done
