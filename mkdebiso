@@ -46,7 +46,7 @@ _prepare(){
 		chmod 755 ${WORKDIR}/chroot/root/customise_dirootfs.d/*.sh
 	fi
 
-	sed "s/%DISTRO_UNAME%/${DISTRO_NAME}/g" -i ${WORKDIR}/grub/grub.cfg
+	sed "s/%DISTRO_NAME%/${DISTRO_NAME}/g" -i ${WORKDIR}/grub/grub.cfg
 	sed "s/%DISTRO_UNAME%/${DISTRO_UNAME}/g" -i ${WORKDIR}/grub/grub.cfg
 
 	# chroot
