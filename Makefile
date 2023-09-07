@@ -13,7 +13,7 @@ all:
 install: install-scripts install-profiles install-doc
 
 install-scripts:
-	install -vDm 755 debiso/mkdebiso -t "$(BIN_DIR)/"
+	install -vDm 755 mkdebiso -t "$(BIN_DIR)/"
 
 install-profiles:
 	install -d -m 755 $(PROFILE_DIR)

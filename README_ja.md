@@ -29,14 +29,13 @@ cd debiso
 ## 3. 導入と実行
 Debianリミックスのサンプルを作りたい場合…
 ```bash
-sudo make install
-sudo mkdebiso -p configs/debian_sample
+sudo ./mkdebiso -p configs/debian_sample
 ```
 
 Ubuntuリミックスのサンプルを作りたい場合…
 ```bash
 sudo make install
-sudo mkdebiso -p configs/debian_sample
+sudo ./mkdebiso -p configs/debian_sample
 ```
 
 # 削除方法

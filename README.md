@@ -26,17 +26,15 @@ git clone https://github.com/njb-fm/debiso.git ~/debiso
 cd ~/debiso
 ```
 
-## 3. Install and execute
+## 3. Execute
 When you make Debian remix sample...
 ```bash
-sudo make install
-sudo mkdebiso -p configs/debian_sample
+sudo ./mkdebiso -p configs/debian-sample
 ```
 
 Also, when you make Ubuntu remix sample...
 ```bash
-sudo make install
-sudo mkdebiso -p configs/debian_sample
+sudo ./mkdebiso -p configs/debian-sample
 ```
 
 # How to uninstall
