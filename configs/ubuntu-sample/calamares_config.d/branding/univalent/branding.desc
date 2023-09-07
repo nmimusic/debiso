@@ -5,15 +5,15 @@ windowExpanding:    fullscreen
 
 
 strings:
-    productName:         "Univalent Versatile Enviroment"
-    shortProductName:    Univalent
-    version:             23.09
+    productName:         "Ubuntu H.A.Y. Remix"
+    shortProductName:    Ubuntu
+    version:             22.04
     #shortVersion:
-    versionedName:       Univalent Versatile Environment 23.09
-    shortVersionedName:  Univalent 23.09
-    bootloaderEntryName: UVE
-    productUrl:          https://sourceforge.net/projects/univalentgnulinux
-    supportUrl:          https://sourceforge.net/projects/univalentgnulinux/forum
+    versionedName:       Ubuntu H.A.Y. Remix 22.04
+    shortVersionedName:  Ubuntu 22.04
+    bootloaderEntryName: ubuntu
+    productUrl:          https://github.com/njb-fm/debiso
+    supportUrl:          https://github.com/njb-fm/debiso/issues
 
 images:
     productLogo:         "logo.png"
