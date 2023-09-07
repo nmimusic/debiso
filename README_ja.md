@@ -10,7 +10,7 @@ Debian/Ubuntuのリミックスや派生ディストロを作るBashスクリプ
 sudo apt install binutils debootstrap dosfstools grub-efi-amd64-bin grub-efi-ia32-bin grub-pc-bin mtools squashfs-tools unzip xorriso
 ```
 
-### Fedora系 (Enterprise系以外)
+### Fedora系 (バージョン9以降のEnterprise系は除く)
 ```bash
 sudo dnf install binutils debootstrap dosfstools grub-efi-ia32 grub-efi-x64 grub-pc mtools squashfs-tools unzip xorriso
 ```

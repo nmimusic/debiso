@@ -10,7 +10,7 @@ A Bash script for remixed Debian/Ubuntu and Debian/Ubuntu-based distro.
 sudo apt install binutils debootstrap dosfstools grub-efi-amd64-bin grub-efi-ia32-bin grub-pc-bin mtools squashfs-tools unzip xorriso
 ```
 
-### Fedora-based (exclude Enterprise-like)
+### Fedora-based (exclude Enterprise-like version 9 or later)
 ```bash
 sudo dnf install binutils debootstrap dosfstools grub-efi-ia32 grub-efi-x64 grub-pc mtools squashfs-tools unzip xorriso
 ```
