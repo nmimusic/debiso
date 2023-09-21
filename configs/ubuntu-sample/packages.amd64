@@ -208,7 +208,6 @@ yaru-theme-sound
 efibootmgr
 grub-efi-amd64-bin
 grub-efi-amd64-signed
-grub-efi-ia32-bin
 libefiboot1
 libefivar1
 

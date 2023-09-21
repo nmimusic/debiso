@@ -9,7 +9,7 @@ set -o pipefail
 set +u
 
 export LC_ALL=C
-DEBISO_VERSION="1.0"
+DEBISO_VERSION="1.1"
 
 _prepare(){
 	mkdir -p ${WORKDIR}/chroot
@@ -192,16 +192,10 @@ EOF
 
 	# generate grub image
 	pushd iso
-	grub-mkstandalone \
+
+			grub-mkstandalone \
 	    --format=x86_64-efi \
 	    --output=isolinux/bootx64.efi \
-	    --locales="" \
-	    --fonts="" \
-	    "boot/grub/grub.cfg=isolinux/grub.cfg"
-
-	grub-mkstandalone \
-	    --format=i386-efi \
-	    --output=isolinux/bootia32.efi \
 	    --locales="" \
 	    --fonts="" \
 	    "boot/grub/grub.cfg=isolinux/grub.cfg"
@@ -211,7 +205,6 @@ EOF
         dd if=/dev/zero of=efiboot.img bs=1M count=20 && \
         mkfs.vfat efiboot.img && \
         LC_CTYPE=C mmd -i efiboot.img efi efi/boot && \
-        LC_CTYPE=C mcopy -i efiboot.img ./bootia32.efi ::efi/boot/ && \
         LC_CTYPE=C mcopy -i efiboot.img ./bootx64.efi ::efi/boot/
 	)
 
@@ -268,6 +261,7 @@ _usage(){
 	echo "   -o <out_dir>  Set the output directory"
 	echo "                  default: out"
 	echo "   -p <prof_dir> Set the profile directory"
+	echo "   -i            Enable 32-bit UEFI support"
 	echo
 	echo "   -h       Show this help"
 	echo "   -v       Show version info"
@@ -313,7 +307,7 @@ WORKDIR="work"
 OUTDIR="out"
 PROFDIR=""
 
-while getopts 'w:o:p:hv' arg; do
+while getopts 'w:o:p:ihv' arg; do
 	case "${arg}" in
 		h)
 			_usage
