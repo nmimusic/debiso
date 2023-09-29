@@ -10,7 +10,7 @@ Debian/Ubuntuのリミックスや派生ディストロを作るBashスクリプ
 sudo apt install binutils debootstrap dosfstools grub-efi-amd64-bin grub-efi-ia32-bin grub-pc-bin mtools squashfs-tools unzip xorriso
 ```
 
-### Fedora系 (バージョン9以降のEnterprise系は除く)
+### Fedora系
 ```bash
 sudo dnf install binutils debootstrap dosfstools grub-efi-ia32 grub-efi-x64 grub-pc mtools squashfs-tools unzip xorriso
 ```
@@ -20,28 +20,20 @@ sudo dnf install binutils debootstrap dosfstools grub-efi-ia32 grub-efi-x64 grub
 sudo pacman -S binutils debootstrap dosfstools grub mtools squashfs-tools unzip xorriso
 ```
 
-## 2. このGitリポジトリをクローンする
-```bash
-git clone https://github.com/njb-fm/debiso.git ./debiso
-cd debiso
-```
+## 2. 最新リリースをダウンロードする
+tarballを`https://github.com/njb-fm/debiso/releases`からダウンロードして解凍する。
 
 ## 3. 導入と実行
 Debianリミックスのサンプルを作りたい場合…
 ```bash
+cd debiso
 sudo ./mkdebiso -p configs/debian_sample
 ```
 
 Ubuntuリミックスのサンプルを作りたい場合…
 ```bash
-sudo make install
+cd debiso
 sudo ./mkdebiso -p configs/debian_sample
-```
-
-# 削除方法
-```bash
-cd ~/debiso
-sudo make uninstall
 ```
 
 # 君達自身のプロファイルを作ろう
