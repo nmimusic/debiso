@@ -80,6 +80,7 @@ _setup(){
 
 	if [ -f chroot/root/customise_dirootfs.d/postinstall.sh ]; then
 		chroot chroot /root/customise_dirootfs.d/postinstall.sh
+		rm -r chroot/root/customise_dirootfs.d
 	fi
 
 	if [ -f exclude_packages.${ARCH} ]; then
