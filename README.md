@@ -33,7 +33,7 @@ sudo ./mkdebiso -p configs/debian-sample
 Also, when you make Ubuntu remix sample...
 ```bash
 cd debiso
-sudo ./mkdebiso -p configs/debian-sample
+sudo ./mkdebiso -p configs/ubuntu-sample
 ```
 
 ## Customise your own profile
