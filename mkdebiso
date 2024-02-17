@@ -95,7 +95,7 @@ _setup(){
 		chroot chroot flatpak install -y flathub $(cat flatpak_packages.${ARCH})
 	fi
 
-	_PATH="$(chroot /var/lib/machines/debian printenv PATH):/usr/sbin"
+	_PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/sbin"
 
 	PATH=${_PATH} chroot chroot /usr/sbin/dpkg-reconfigure locales
 	PATH=${_PATH} chroot chroot /usr/sbin/dpkg-reconfigure resolvconf
