@@ -9,7 +9,7 @@ set -o pipefail
 set +u
 
 export LC_ALL=C
-DEBISO_VERSION="1.1"
+DEBISO_VERSION="1.2"
 
 _prepare(){
 	mkdir -p ${WORKDIR}/chroot
