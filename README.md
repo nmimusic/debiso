@@ -21,7 +21,7 @@ sudo pacman -S binutils debootstrap dosfstools grub mtools squashfs-tools unzip 
 ```
 
 ## 2. Download Latest Release
-Download tarball from `https://github.com/njb-fm/debiso/releases`, and extract it.
+Download tarball from `https://github.com/nmimusic/debiso/releases`, and extract it.
 
 ## 3. Execute
 When you make Debian remix sample...
@@ -37,7 +37,7 @@ sudo ./mkdebiso -p configs/ubuntu-sample
 ```
 
 ## Customise your own profile
-See [usage](https://github.com/njb-fm/debiso/wiki/usage)
+See [usage](https://github.com/nmimusic/debiso/wiki/usage)
 
 # License
 The scripts and components are licensed under 3-clause BSD License. See  also [LICENSE](LICENSE).

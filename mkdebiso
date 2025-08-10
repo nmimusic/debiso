@@ -83,8 +83,18 @@ _setup(){
 		rm -r chroot/root/customise_dirootfs.d
 	fi
 
+	if [ -f chroot/root/customise_dirootfs.d/preexclude.sh ]; then
+		chroot chroot /root/customise_dirootfs.d/preexclude.sh
+		rm -r chroot/root/customise_dirootfs.d
+	fi
+
 	if [ -f exclude_packages.${ARCH} ]; then
 		chroot chroot apt-get purge -y --autoremove $(cat exclude_packages.${ARCH})
+	fi
+
+	if [ -f chroot/root/customise_dirootfs.d/postexclude.sh ]; then
+		chroot chroot /root/customise_dirootfs.d/postexclude.sh
+		rm -r chroot/root/customise_dirootfs.d
 	fi
 
 	# flatpak's pkgs
