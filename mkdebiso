@@ -30,6 +30,14 @@ _prepare(){
 	if [ -d ${PROFDIR}/trusted.gpg.d ]; then
 		cp -pr ${PROFDIR}/trusted.gpg.d/* ${WORKDIR}/chroot/etc/apt/trusted.gpg.d/
 	fi
+	if [ -f ${PROFDIR}/rec_packages.${ARCH} ]; then
+		cp -p ${PROFDIR}/rec_packages.${ARCH} ${WORKDIR}/
+		sed /^\#/d -i ${WORKDIR}/rec_packages.${ARCH}
+	fi
+	if [ -f ${PROFDIR}/sug_packages.${ARCH} ]; then
+		cp -p ${PROFDIR}/sug_packages.${ARCH} ${WORKDIR}/
+		sed /^\#/d -i ${WORKDIR}/sug_packages.${ARCH}
+	fi
 	if [ -f ${PROFDIR}/exclude_packages.${ARCH} ]; then
 		cp -p ${PROFDIR}/exclude_packages.${ARCH} ${WORKDIR}/
 		sed /^\#/d -i ${WORKDIR}/exclude_packages.${ARCH}
@@ -76,7 +84,15 @@ _setup(){
 
 	chroot chroot apt-get update
 	chroot chroot apt-get upgrade -y
-	chroot chroot apt-get install -y $(cat packages.${ARCH})
+	chroot chroot apt-get install -y --no-install-recommends $(cat packages.${ARCH})
+
+	if [ -f rec_packages.${ARCH} ]; then
+		chroot chroot apt-get install -y $(cat rec_packages.${ARCH})
+	fi
+
+	if [ -f sug_packages.${ARCH} ]; then
+		chroot chroot apt-get install -y --install-suggests $(cat sug_packages.${ARCH})
+	fi
 
 	if [ -f chroot/root/customise_dirootfs.d/postinstall.sh ]; then
 		chroot chroot /root/customise_dirootfs.d/postinstall.sh

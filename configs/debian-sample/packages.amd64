@@ -62,46 +62,17 @@ grub-pc-bin
 grub2-common
 locales
 
-# GNOME Desktop
-task-desktop
-tasksel
-xorg
-gnome-bluetooth
-gnome-calendar
-gnome-clocks
-gnome-control-center
-gnome-disk-utility
-gnome-keyring
-gnome-logs
-gnome-menus
-gnome-online-accounts
-gnome-session
-gnome-settings-daemon
-gnome-shell
-gnome-terminal
-gnome-sushi
-gnome-software
-gnome-software-plugin-flatpak
-gnome-user-docs
-gnome-user-share
-gdm3
-
-# Softwares
-gparted
-nautilus
-totem
-eog
-gedit
-rhythmbox
-evince
-galculator
-
 # Boot Splash
 plymouth
 plymouth-themes
 
 # Audio
-pulseaudio
+pipewire
+wireplumber
+pipewire-pulse
+pipewire-alsa
+pipewire-jack
+gstreamer1.0-pipewire
 pavucontrol
 alsa-utils
 
