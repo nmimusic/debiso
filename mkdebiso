@@ -163,9 +163,9 @@ _build_iso(){
 		cp chroot/boot/memtest86+.bin iso/install/memtest86+
 	fi
 
-	wget https://www.memtest86.com/downloads/memtest86-usb.zip -O iso/install/memtest86-usb.zip
-	unzip -p iso/install/memtest86-usb.zip memtest86-usb.img > iso/install/memtest86
-	rm -f iso/install/memtest86-usb.zip
+	#wget https://www.memtest86.com/downloads/memtest86-usb.zip -O iso/install/memtest86-usb.zip
+	#unzip -p iso/install/memtest86-usb.zip memtest86-usb.img > iso/install/memtest86
+	#rm -f iso/install/memtest86-usb.zip
 
 	# copy kernel
 	if [[ ${UPSTREAM} == "debian" ]]; then
@@ -192,7 +192,8 @@ _build_iso(){
 	    -e "root/.*" \
 	    -e "tmp/*" \
 	    -e "tmp/.*" \
-	    -e "swapfile"
+	    -e "swapfile" \
+	    -comp xz
 
 	if [[ ${UPSTREAM} == "ubuntu" ]]; then
 		# create diskdefines
@@ -220,7 +221,7 @@ EOF
 	# generate grub image
 	pushd iso
 
-			grub-mkstandalone \
+	grub-mkstandalone \
 	    --format=x86_64-efi \
 	    --output=isolinux/bootx64.efi \
 	    --locales="" \
