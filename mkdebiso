@@ -12,7 +12,11 @@ export LC_ALL=C
 DEBISO_VERSION="1.2"
 
 _prepare(){
-	mkdir -p ${WORKDIR}/chroot
+	if [ ! -d ${WORKDIR} ];then
+		mkdir -p ${WORKDIR}/chroot
+	else
+		mkdir ${WORKDIR}/chroot
+	fi
 
 	debootstrap --arch=${ARCH} --variant=minbase ${UPSTREAM_VERSION} ${WORKDIR}/chroot ${MIRROR_URL}
 
@@ -240,7 +244,9 @@ EOF
 	/bin/bash -c "(find . -type f -print0 | xargs -0 md5sum | grep -v -e 'md5sum.txt' -e 'bios.img' -e 'efiboot.img' > md5sum.txt)"
 
 	# build iso
-	mkdir ../../${OUTDIR}
+	if [ ! -d ${OUTDIR} ];then
+		mkdir ../../${OUTDIR}
+	fi
 
 	xorriso \
 	    -as mkisofs \
