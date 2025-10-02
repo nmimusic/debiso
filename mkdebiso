@@ -156,17 +156,6 @@ _build_iso(){
 	mkdir iso
 	mkdir -p iso/{${LIVEDIR},isolinux,install}
 
-	# copy memtest86
-	if [[ ${UPSTREAM} == "debian" ]]; then
-		cp chroot/boot/memtest86+x64.bin iso/install/memtest86+
-	elif [[ ${UPSTREAM} == "ubuntu" ]]; then
-		cp chroot/boot/memtest86+.bin iso/install/memtest86+
-	fi
-
-	#wget https://www.memtest86.com/downloads/memtest86-usb.zip -O iso/install/memtest86-usb.zip
-	#unzip -p iso/install/memtest86-usb.zip memtest86-usb.img > iso/install/memtest86
-	#rm -f iso/install/memtest86-usb.zip
-
 	# copy kernel
 	if [[ ${UPSTREAM} == "debian" ]]; then
 			cp chroot/boot/vmlinuz-**-**-${ARCH} iso/live/vmlinuz
