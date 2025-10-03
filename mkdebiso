@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # DebISO - Debian/Ubuntu Remix Creator
-# License: 3-clause BSD
-# Copyright (c) 2023 Radio New Japan Broadcasting Club
+# SPDX-License-Identifier: BSD-3-Clause
+# Copyright (c) 2023-2025 Nakamura Musical Industries Dojin Club
 
 set -e
 set -o pipefail
