@@ -2,7 +2,7 @@
 
 # DebISO - Debian/Ubuntu Remix Creator
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2023-2025 Nakamura Musical Industries Dojin Club
+# Copyright (c) 2023-2025 Nakamura Musical Industries Dojin Club/NIPPON RURITANIA
 
 set -e
 set -o pipefail

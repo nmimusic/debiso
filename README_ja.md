@@ -1,5 +1,7 @@
 # DebISO - Debian/Ubuntuリミックス作成ソフト
 ----
+(C) 2023-2025 Nakamura Musical Industries/NIPPON RURITANIA
+
 # なにこれ
 Debian/Ubuntuのリミックスや派生ディストロを作るBashスクリプトだ。
 

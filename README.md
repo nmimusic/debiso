@@ -1,5 +1,7 @@
 # DebISO - Debian/Ubuntu Remix Creator
 ----
+(C) 2023-2025 Nakamura Musical Industries/NIPPON RURITANIA
+
 # What's this?
 A Bash script for remixed Debian/Ubuntu and Debian/Ubuntu-based distro.
 
