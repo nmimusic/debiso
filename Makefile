@@ -1,4 +1,4 @@
-# DebISO Installer
+# Toki Installer v(ᓀ‸ᓂ)v
 # License: 3-clause BSD
 # Copyright (c) 2023-2026 Nippon Ruritania Music Assembly
 
