@@ -1,6 +1,6 @@
-# DebISO - Debian/Ubuntuリミックス作成ソフト
+# Toki - Debian/Ubuntuリミックス作成ソフト
 ----
-(C) 2023-2025 Nakamura Musical Industries/NIPPON RURITANIA
+(C) 2023-2026 Nippon Ruritania Music Assembly
 
 # なにこれ
 Debian/Ubuntuのリミックスや派生ディストロを作るBashスクリプトだ。
@@ -23,23 +23,23 @@ sudo pacman -S binutils debootstrap dosfstools grub mtools squashfs-tools unzip 
 ```
 
 ## 2. 最新リリースをダウンロードする
-tarballを`https://github.com/nmimusic/debiso/releases`からダウンロードして解凍する。
+tarballを`https://github.com/nmimusic/toki/releases`からダウンロードして解凍する。
 
 ## 3. 導入と実行
 Debianリミックスのサンプルを作りたい場合…
 ```bash
-cd debiso
-sudo ./mkdebiso -p configs/debian_sample
+cd toki
+sudo ./tokibuild -p configs/debian_sample
 ```
 
 Ubuntuリミックスのサンプルを作りたい場合…
 ```bash
-cd debiso
-sudo ./mkdebiso -p configs/debian_sample
+cd toki
+sudo ./tokibuild -p configs/debian_sample
 ```
 
 # 君達自身のプロファイルを作ろう
-See [usage](https://github.com/nmimusic/debiso/wiki/usage)
+See [usage](https://github.com/nmimusic/toki/wiki/usage)
 
 # ライセンス
 スクリプトやコンポーネントは三条項BSDライセンスのもとで無償で配布しています。[LICENSE](LICENSE)も見てね。

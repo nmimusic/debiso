@@ -1,6 +1,6 @@
-# DebISO - Debian/Ubuntu Remix Creator
+# Toki - Debian/Ubuntu Remix Creator
 ----
-(C) 2023-2025 Nakamura Musical Industries/NIPPON RURITANIA
+(C) 2023-2026 Nippon Ruritania Music Assembly
 
 # What's this?
 A Bash script for remixed Debian/Ubuntu and Debian/Ubuntu-based distro.
@@ -23,23 +23,23 @@ sudo pacman -S binutils debootstrap dosfstools grub mtools squashfs-tools unzip 
 ```
 
 ## 2. Download Latest Release
-Download tarball from `https://github.com/nmimusic/debiso/releases`, and extract it.
+Download tarball from `https://github.com/nmimusic/toki/releases`, and extract it.
 
 ## 3. Execute
 When you make Debian remix sample...
 ```bash
 cd debiso
-sudo ./mkdebiso -p configs/debian-sample
+sudo ./tokibuild -p configs/debian-sample
 ```
 
 Also, when you make Ubuntu remix sample...
 ```bash
 cd debiso
-sudo ./mkdebiso -p configs/ubuntu-sample
+sudo ./tokibuild -p configs/ubuntu-sample
 ```
 
 ## Customise your own profile
-See [usage](https://github.com/nmimusic/debiso/wiki/usage)
+See [usage](https://github.com/nmimusic/toki/wiki/usage)
 
 # License
 The scripts and components are licensed under 3-clause BSD License. See  also [LICENSE](LICENSE).

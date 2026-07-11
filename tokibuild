@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# DebISO - Debian/Ubuntu Remix Creator
+# Toki - Debian/Ubuntu Remix Creator
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2023-2025 Nakamura Musical Industries Dojin Club/NIPPON RURITANIA
+# Copyright (c) 2023-2026 Nippon Ruritania Music Assembly
 
 set -e
 set -o pipefail
 set +u
 
 export LC_ALL=C
-DEBISO_VERSION="1.3"
+TOKI_VERSION="1.3"
 
 _prepare(){
 	if [ ! -d ${WORKDIR} ];then
@@ -20,7 +20,7 @@ _prepare(){
 
 	debootstrap --arch=${ARCH} --variant=minbase ${UPSTREAM_VERSION} ${WORKDIR}/chroot ${MIRROR_URL}
 
-	cp -pr 	${PROFDIR}/dirootfs/* ${WORKDIR}/chroot/
+	cp -pr 	${PROFDIR}/tokiroot/* ${WORKDIR}/chroot/
 	cp -p ${PROFDIR}/packages.${ARCH} ${WORKDIR}/
 	sed "/^\#/d" -i ${WORKDIR}/packages.${ARCH}
 	cp -pr ${PROFDIR}/grub ${WORKDIR}/
@@ -54,8 +54,8 @@ _prepare(){
 		cp -p ${PROFDIR}/ppa.${ARCH} ${WORKDIR}/
 		sed "/^\#/d" -i ${WORKDIR}/ppa.${ARCH}
 	fi
-	if [ -d ${WORKDIR}/chroot/root/customise_dirootfs.d/ ]; then
-		chmod 755 ${WORKDIR}/chroot/root/customise_dirootfs.d/*.sh
+	if [ -d ${WORKDIR}/chroot/root/customise_tokiroot.d/ ]; then
+		chmod 755 ${WORKDIR}/chroot/root/customise_tokiroot.d/*.sh
 	fi
 
 	sed "s/%DISTRO_NAME%/${DISTRO_NAME}/g" -i ${WORKDIR}/grub/grub.cfg
@@ -88,8 +88,8 @@ _setup(){
 		done
 	fi
 
-	if [ -f chroot/root/customise_dirootfs.d/preinstall.sh ]; then
-		chroot chroot /root/customise_dirootfs.d/preinstall.sh
+	if [ -f chroot/root/customise_tokiroot.d/preinstall.sh ]; then
+		chroot chroot /root/customise_tokiroot.d/preinstall.sh
 	fi
 
 	chroot chroot apt-get update
@@ -104,23 +104,23 @@ _setup(){
 		chroot chroot apt-get install -y --install-suggests $(cat sug_packages.${ARCH})
 	fi
 
-	if [ -f chroot/root/customise_dirootfs.d/postinstall.sh ]; then
-		chroot chroot /root/customise_dirootfs.d/postinstall.sh
-		rm -r chroot/root/customise_dirootfs.d
+	if [ -f chroot/root/customise_tokiroot.d/postinstall.sh ]; then
+		chroot chroot /root/customise_tokiroot.d/postinstall.sh
+		rm -r chroot/root/customise_tokiroot.d
 	fi
 
-	if [ -f chroot/root/customise_dirootfs.d/preexclude.sh ]; then
-		chroot chroot /root/customise_dirootfs.d/preexclude.sh
-		rm -r chroot/root/customise_dirootfs.d
+	if [ -f chroot/root/customise_tokiroot.d/preexclude.sh ]; then
+		chroot chroot /root/customise_tokiroot.d/preexclude.sh
+		rm -r chroot/root/customise_tokiroot.d
 	fi
 
 	if [ -f exclude_packages.${ARCH} ]; then
 		chroot chroot apt-get purge -y --autoremove $(cat exclude_packages.${ARCH})
 	fi
 
-	if [ -f chroot/root/customise_dirootfs.d/postexclude.sh ]; then
-		chroot chroot /root/customise_dirootfs.d/postexclude.sh
-		rm -r chroot/root/customise_dirootfs.d
+	if [ -f chroot/root/customise_tokiroot.d/postexclude.sh ]; then
+		chroot chroot /root/customise_tokiroot.d/postexclude.sh
+		rm -r chroot/root/customise_tokiroot.d
 	fi
 
 	# flatpak's pkgs
@@ -282,7 +282,7 @@ EOF
 }
 
 _usage(){
-	echo "usage: mkdebiso [options] -p <profile directory>"
+	echo "usage: tokibuild [options] -p <profile directory>"
 	echo
 	echo "Options:"
 	echo "   -w <work_dir> Set the working directory"
@@ -297,7 +297,7 @@ _usage(){
 }
 
 _version(){
-	echo "DebISO ${DEBISO_VERSION} - Debian/Ubuntu Remix Creator"
+	echo "Toki ${TOKI_VERSION} - Debian/Ubuntu Remix Creator"
 	echo
 	echo "Copyright (c) 2023 Radio New Japan All Rights Reserved."
 	echo "This software is licensed under 3-clause BSD license."
