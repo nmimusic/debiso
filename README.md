@@ -1,4 +1,4 @@
-# Toki - Debian/Ubuntu Remix Creator
+# Toki - Debian/Ubuntu Remix Creator v(ᓀ‸ᓂ)v
 ----
 (C) 2023-2026 Nippon Ruritania Music Assembly
 

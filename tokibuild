@@ -297,9 +297,9 @@ _usage(){
 }
 
 _version(){
-	echo "Toki ${TOKI_VERSION} - Debian/Ubuntu Remix Creator"
+	echo "Toki ${TOKI_VERSION} - Debian/Ubuntu Remix Creator v(ᓀ‸ᓂ)v"
 	echo
-	echo "Copyright (c) 2023 Radio New Japan All Rights Reserved."
+	echo "Copyright (c) 2023-2026 Nippon Ruritania Music Assembly."
 	echo "This software is licensed under 3-clause BSD license."
 }
 

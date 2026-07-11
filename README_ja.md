@@ -1,4 +1,4 @@
-# Toki - Debian/Ubuntuリミックス作成ソフト
+# Toki - Debian/Ubuntuリミックス作成ソフト v(ᓀ‸ᓂ)v
 ----
 (C) 2023-2026 Nippon Ruritania Music Assembly
 
