@@ -23,7 +23,10 @@ sudo pacman -S binutils debootstrap dosfstools grub mtools squashfs-tools unzip 
 ```
 
 ## 2. 最新リリースをダウンロードする
-tarballを`https://github.com/nmimusic/toki/releases`からダウンロードして解凍する。
+このリポジトリをクローンする。
+```bash
+git clone https://github.com/nmimusic/toki
+```
 
 ## 3. 導入と実行
 Debianリミックスのサンプルを作りたい場合…
