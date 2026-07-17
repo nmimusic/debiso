@@ -23,18 +23,22 @@ sudo pacman -S binutils debootstrap dosfstools grub mtools squashfs-tools unzip 
 ```
 
 ## 2. Download Latest Release
-Download tarball from `https://github.com/nmimusic/toki/releases`, and extract it.
+Clone this repository.
+
+```bash
+git clone https://github.com/nmimusic/toki
+```
 
 ## 3. Execute
 When you make Debian remix sample...
 ```bash
-cd debiso
+cd toki
 sudo ./tokibuild -p configs/debian-sample
 ```
 
 Also, when you make Ubuntu remix sample...
 ```bash
-cd debiso
+cd toki
 sudo ./tokibuild -p configs/ubuntu-sample
 ```
 
