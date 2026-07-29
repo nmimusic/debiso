@@ -31,8 +31,8 @@ _prepare(){
 	if [ -d ${PROFDIR}/sources.list.d ]; then
 		cp -pr ${PROFDIR}/sources.list.d/* ${WORKDIR}/chroot/etc/apt/sources.list.d/
 	fi
-	if [ -d ${PROFDIR}/trusted.gpg.d ]; then
-		cp -pr ${PROFDIR}/trusted.gpg.d/* ${WORKDIR}/chroot/etc/apt/trusted.gpg.d/
+	if [ -d ${PROFDIR}/keyrings ]; then
+		cp -pr ${PROFDIR}/keyrings/* ${WORKDIR}/chroot/etc/apt/keyrings/
 	fi
 	if [ -f ${PROFDIR}/nonrec_packages.${ARCH} ]; then
 		cp -p ${PROFDIR}/nonrec_packages.${ARCH} ${WORKDIR}/
@@ -148,6 +148,7 @@ EOF
 	PATH=${_PATH} chroot chroot /usr/sbin/dpkg-reconfigure network-manager
 
 	chroot chroot apt-get clean -y
+	rm -rf chroot/root/customise_tokiroot.d/
 }
 
 _build_iso(){
