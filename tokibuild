@@ -18,7 +18,11 @@ _prepare(){
 		mkdir ${WORKDIR}/chroot
 	fi
 
-	debootstrap --arch=${ARCH} --variant=minbase ${UPSTREAM_VERSION} ${WORKDIR}/chroot ${MIRROR_URL}
+	if [ -f ${PROFDIR}/include_packages.${ARCH} ]; then
+		debootstrap --arch=${ARCH} --variant=minbase --include="$(sed "/^#/d; /^$/d" include_packages.${ARCH}|paste -s -d ',' -)" ${UPSTREAM_VERSION} ${WORKDIR}/chroot ${MIRROR_URL}
+	else
+		debootstrap --arch=${ARCH} --variant=minbase ${UPSTREAM_VERSION} ${WORKDIR}/chroot ${MIRROR_URL}
+	fi
 
 	cp -pr 	${PROFDIR}/tokiroot/* ${WORKDIR}/chroot/
 	cp -p ${PROFDIR}/packages.${ARCH} ${WORKDIR}/
@@ -33,6 +37,9 @@ _prepare(){
 	fi
 	if [ -d ${PROFDIR}/keyrings ]; then
 		cp -pr ${PROFDIR}/keyrings/* ${WORKDIR}/chroot/etc/apt/keyrings/
+	fi
+	if [ -d ${PROFDIR}/isoinclude ]; then
+		cp -pr ${PROFDIR}/isoinclude/* ${WORKDIR}/isoinclude
 	fi
 	if [ -f ${PROFDIR}/nonrec_packages.${ARCH} ]; then
 		cp -p ${PROFDIR}/nonrec_packages.${ARCH} ${WORKDIR}/
@@ -96,8 +103,16 @@ _setup(){
 	chroot chroot apt-get upgrade -y
 	chroot chroot apt-get install -y $(cat packages.${ARCH})
 
+	if [ -f chroot/root/customise_tokiroot.d/preinstall_nonrec.sh ]; then
+		chroot chroot /root/customise_tokiroot.d/preinstall_nonrec.sh
+	fi
+
 	if [ -f nonrec_packages.${ARCH} ]; then
 		chroot chroot apt-get install -y --no-install-recommends $(cat nonrec_packages.${ARCH})
+	fi
+
+	if [ -f chroot/root/customise_tokiroot.d/preinstall_sug.sh ]; then
+		chroot chroot /root/customise_tokiroot.d/preinstall_sug.sh
 	fi
 
 	if [ -f sug_packages.${ARCH} ]; then
@@ -166,6 +181,10 @@ _build_iso(){
 
 	mkdir iso
 	mkdir -p iso/{${LIVEDIR},isolinux,install}
+
+	if [ -d ${WORKDIR}/isoinclude ]; then
+		cp -r ${WORKDIR}/isoinclude/* iso
+	fi
 
 	# copy kernel
 	if [[ ${UPSTREAM} == "debian" ]]; then
